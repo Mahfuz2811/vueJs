@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            {{ message }}
+        </div>
+
+        <div id="app2">
+            <input type="text" v-model="newTodo">
+            <button @click="addTodo">
+                +Add New
+            </button>
+            <ol>
+                <li v-for="todo in todos">
+                    {{ todo.text | capitalize }}
+                </li>
+            </ol>
+            <todo-list :todos="todos" />
+        </div> 
+
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    message: 'Hello Vue!'
+                }
+            })
+
+            Vue.component('todo-list', {
+                props: ['todos'],
+                template:
+                    '<ul><li v-for="todo in todos"> {{ todo.text }} </li></ul>' 
+            })
+
+            var app2 = new Vue({
+                el: '#app2',
+                component: [
+                    'todo-list'
+                ],
+                data: {
+                    todos: [
+                        { text: "Mahfuz" },
+                        { text: "Shishir" }
+                    ],
+                    newTodo: ''
+                },
+                methods:{
+                    addTodo: function () {
+                        if(this.newTodo.length > 1)
+                            return this.todos.push({ text: this.newTodo })
+                    }
+                },
+                filters: {
+                    capitalize: function (value) {
+                        return value.toUpperCase();
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

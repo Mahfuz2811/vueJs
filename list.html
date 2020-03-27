@@ -1,0 +1,48 @@
+<html>
+
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <div id="v-for-object">
+            <ul class="demo">
+                <li v-for="(item, index) in items">
+                    item {{ index + 1}}
+                    <ul class="test">
+                        <li v-for="(value, name, index) in item">
+                            {{ index + 1}} - {{ name }}: {{ value }}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <input v-model.number="age" type="number">
+            <p>{{ msg }}</p>
+        </div>
+        
+
+
+        <script>
+            new Vue({
+                el: '#v-for-object',
+                data: {
+                    items: [
+                        {
+                            title: 'How to do lists in Vue',
+                            author: 'Jane Doe',
+                            publishedAt: '2016-04-10'
+                        },
+                        {
+                            title: 'lists in Vue',
+                            author: 'Mahfuz',
+                            publishedAt: '2020-04-10'
+                        }
+                    ],
+                    msg: 'First',
+                    age: ''
+                }
+            })
+        </script>
+    </body>
+</html>

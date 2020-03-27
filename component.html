@@ -1,0 +1,83 @@
+<html>
+
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <div id="v-for-object">
+            <button-counter title="You clicked me "></button-counter>
+            <button-counter></button-counter>
+            <button-counter></button-counter>
+            <div :style="{ fontSize: postFontSize + 'em' }">
+                <!-- <blog-post v-for="post in posts" :key="post.id" :post="post" v-on:enlarge-text="postFontSize += $event"></blog-post> -->
+                <blog-post v-for="post in posts" :key="post.id" :post="post" v-on:enlarge-text="enlargeText"></blog-post>
+                <custom-input v-model="searchText"></custom-input>
+                {{ searchText }}
+            </div>
+            <alert-box>
+                Something bad happened.
+              </alert-box>
+        </div>
+        
+
+
+        <script>
+
+            Vue.component('button-counter', {
+                props: ['title'],
+                data: function(){
+                    return {
+                        count: 0
+                    }
+                },
+                template: '<button v-on:click="count++">{{ title }} {{ count }} times</button>'
+            })
+
+            Vue.component('blog-post', {
+                props: ['post'],
+                template: '<div class="blog-post">\
+                            <h3>{{ post.title }}</h3>\
+                            <button v-on:click="$emit(\'enlarge-text\', 0.2)">\
+                                Enlarge text\
+                            </button>\
+                            <div v-html="post.content"></div>\
+                        </div>'
+            })
+
+            Vue.component('custom-input', {
+                props: ['value'],
+                template: '<input\
+                                v-bind:value="value"\
+                                v-on:input="$emit(\'input\', $event.target.value)">'
+            })
+
+            Vue.component('alert-box', {
+                props: [],
+                template: '<div class="demo-alert-box">\
+                            <strong>Error!</strong>\
+                            <slot></slot>\
+                        </div>'
+            })
+
+            new Vue({
+                el: '#v-for-object',
+                data: {
+                    posts: [
+                        { id: 1, title: 'Heading 1', content: 'Content 1' },
+                        { id: 2, title: 'Heading 2', content: 'Content 2' },
+                        { id: 3, title: 'Heading 3', content: 'Content 3' },
+                    ],
+                    postFontSize: 1,
+                    searchText: "Default Value"
+                },
+                methods: {
+                    enlargeText: function(enlargeAmount){
+                        return this.postFontSize += enlargeAmount
+                    }
+                }
+                
+            })
+        </script>
+    </body>
+</html>
